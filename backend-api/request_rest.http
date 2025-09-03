@@ -1,0 +1,41 @@
+### Get semua data buku
+GET http://127.0.0.1:8000/api/buku
+Accept: application/json
+
+###
+
+### tambah data buku
+POST http://127.0.0.1:8000/api/buku
+Content-Type: application/json
+Accept: application/json
+
+{
+  "judul": "aku akui salah",
+  "pengarang": "ardian putra",
+  "penerbit": "Purnama",
+  "tahun_terbit": 2008,
+  "kategori": "Novel",
+  "jumlah": 8
+}
+
+###
+
+### update data buku
+PUT http://127.0.0.1:8000/api/buku/7
+Content-Type: application/json
+Accept: application/json
+
+{
+  "judul": "Belajar React",
+  "pengarang": "ardian putra",
+  "penerbit": "Penerbit XYZ",
+  "tahun_terbit": 2022,
+  "kategori": "Pelajaran",
+  "jumlah": 12
+}
+
+###
+
+### hapus data buku
+DELETE http://127.0.0.1:8000/api/buku/7
+Accept: application/json
