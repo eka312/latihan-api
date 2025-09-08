@@ -30,15 +30,25 @@ function DataAnggota() {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [selectedAnggota, setSelectedAnggota] = useState<Anggota | null>(null);
     const [globalFilter, setGlobalFilter] = useState<string>("");
+    const token = localStorage.getItem("token");
 
     const getAnggota = () => {
       axios
-        .get("http://127.0.0.1:8000/api/anggota")
-        .then((res) => setAnggota(res.data.data))
+        .get("http://127.0.0.1:8000/api/anggota", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        })
+        .then((res) => {
+          console.log("Respon API Anggota:", res.data);
+          setAnggota(res.data.data);
+        })
         .catch((err) => {
           console.error("Gagal ambil data anggota:", err);
         });
     };
+
   
     useEffect(() => {
       getAnggota();
@@ -91,13 +101,14 @@ function DataAnggota() {
 
   return (
     <>
-      <div className="flex ">
-        <div className="w-28 lg:w-72">
+
+      <div className="flex min-h-screen ">
+        <div className="w-16 sm:w-64">
           <Sidebar/>
         </div>
-        <div className=" flex-1 pt-2 mr-2 mb-6 lg:mr-8 rounded-2xl sm:pt-5 overflow-x-auto relative">
+        <div className=" flex-1 m-4 md:m-6 pb-7  rounded-2xl overflow-x-auto relative">
           
-          <div className="bg-white p-6 mt-2.5 rounded-2xl shadow-2xl ">
+          <div className="bg-white p-6 mt-2.5 rounded-2xl shadow-lg ">
             {/* Tombol & Judul */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-gray-700">Daftar Anggota</h2>
@@ -109,7 +120,7 @@ function DataAnggota() {
               </button>
             </div>
 
-            <div className="flex justify-start mb-4">
+            <div className="flex justify-start mb-4 overflow-x-auto">
               <span className="p-input-icon-left">
                 <i className="pi pi-search !pl-3 text-gray-500" />
                 <InputText

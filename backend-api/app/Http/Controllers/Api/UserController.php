@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use illuminate\Http\Response;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+   
 
     public function register(Request $request) {
         /**
@@ -52,39 +53,32 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(Request $request) {
-        /**
-        * Validasi inputan user
-        */
+    public function login(Request $request)
+    {
+        // Validasi input
         $fields = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
         ]);
-
-        /**
-        * Cek ke model User apa data yang diinputkan
-        * sama dengan data yang ada pada DB / tabel
-        */
+    
+        // Cari user berdasarkan email
         $user = User::where('email', $fields['email'])->first();
-
-        /**
-        * Jika tidak return response json berikut.
-        */
-        if(!$user || !Hash::check($fields['password'], $user->password)) {
+    
+        // Kalau email tidak ditemukan atau password salah
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([
                 'status' => Response::HTTP_UNAUTHORIZED,
                 'message' => 'Email atau password salah'
-            ]);
+            ], Response::HTTP_UNAUTHORIZED);
         }
-
-        /**
-        * Jika berhasil, buat token baru untuk user
-        */
+    
+        // Hapus token lama biar nggak numpuk
+        $user->tokens()->delete();
+    
+        // Buat token baru
         $token = $user->createToken('login_token')->plainTextToken;
-
-        /**
-        * Return response dalam bentuk json
-        */
+    
+        // Balikkan JSON response, bukan redirect
         return response()->json([
             'status' => Response::HTTP_OK,
             'message' => 'User berhasil login',

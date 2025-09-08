@@ -1,33 +1,36 @@
-import {NavLink} from 'react-router-dom';
-import {FaHome} from "react-icons/fa";
-// import { useState } from 'react';
-// import axios from "axios";
+import {NavLink, useNavigate} from 'react-router-dom';
+import {FaDoorOpen, FaHome} from "react-icons/fa";
+import { useState } from 'react';
+import axios from "axios";
 import { FaUser, FaTable} from 'react-icons/fa';
 
 
 
 function Sidebar() {
-  // const navigate = useNavigate();
-  // const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/");
-  // };
+  const handleLogout = async () => {
+    try {
+      await axios.delete("http://127.0.0.1:8000/api/logout", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json"
+        },
+      });
+  
+      localStorage.removeItem("token");
+      navigate("/login", {replace: true});
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await axios.delete("http://localhost:5000/logout", { withCredentials: true });
-  //     localStorage.removeItem("token");
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Logout gagal:", error);
-  //   }
-  // };
 
-  // const confirmLogout = () => {
-  //   setShowConfirm(true);
-  // };
+    } catch (error) {
+      console.error("Logout gagal:", error);
+    }
+  };
+
+  const confirmLogout = () => {
+    setShowConfirm(true);
+  };
 
   
 
@@ -40,7 +43,7 @@ function Sidebar() {
       <div
         className="h-full fixed left-0 top-0 z-40
           bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900
-          text-white w-[60px] lg:w-64 
+          text-white w-[60px] lg:w-56
           shadow-xl flex flex-col justify-between
           transition-all duration-300 "
       >
@@ -64,7 +67,7 @@ function Sidebar() {
               }
             >
               <FaHome className="w-5 h-5" />
-              <span className="hidden lg:inline font-medium">Dashboard</span>
+              <span className="hidden lg:inline text-sm">Dashboard</span>
             </NavLink>
           </li>
           <li>
@@ -81,7 +84,7 @@ function Sidebar() {
               }
             >
               <FaTable className="w-5 h-5" />
-              <span className="hidden lg:inline font-medium">Data Buku</span>
+              <span className="hidden lg:inline text-sm">Data Buku</span>
             </NavLink>
           </li>
           <li>
@@ -98,14 +101,32 @@ function Sidebar() {
               }
             >
               <FaUser className="w-5 h-5" />
-              <span className="hidden lg:inline font-medium">Data Anggota</span>
+              <span className="hidden lg:inline text-sm">Data Anggota</span>
             </NavLink>
           </li>
+          <li>
+
+            <button
+              onClick={confirmLogout}
+              className="flex items-center gap-3 px-3 py-2 rounded-xl transition-all 
+              hover:bg-white/10 hover:shadow-sm w-full"
+            >
+              <FaDoorOpen className="w-5 h-5" />
+              <span className="hidden lg:inline text-sm">Logout</span>
+            </button>
+
+          </li>
+
+
 
         </ul>
 
-        {/* Footer / Logout nanti bisa ditaruh sini */}
+        
+
+        {/* Footer */}
         <div className="p-4 text-xs text-gray-400 hidden lg:block">
+            
+
           © 2025 Perpus App
         </div>
       </div>
@@ -113,7 +134,7 @@ function Sidebar() {
 
 
       {/* modal konfir log out */}
-      {/* {showConfirm && (
+      {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xs"></div>
@@ -137,7 +158,7 @@ function Sidebar() {
             </div>
           </div>
         </div>
-      )} */}
+      )}
 
 
 

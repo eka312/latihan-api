@@ -1,19 +1,18 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 
-interface ProtectedRouteProps {
+interface PrivateRouteProps {
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const token = localStorage.getItem("token");
 
-  // kalau tidak ada token, redirect ke login
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default PrivateRoute;
