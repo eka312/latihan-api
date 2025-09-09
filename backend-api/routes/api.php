@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AnggotaController;
 use App\Http\Controllers\Api\BukuController;
 use App\Http\Controllers\api\DashboardController;
+use App\Http\Controllers\Api\PeminjamanController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::delete('anggota/{idKey}', [AnggotaController::class, 'destroy'])
         ->name('api.anggota.destroy');
+
+
+
+    // peminjaman route
+    Route::get('peminjaman', [PeminjamanController::class, 'index'])
+        ->name('api.peminjaman.index');
+
+    Route::post('peminjaman', [PeminjamanController::class, 'store'])
+        ->name('api.peminjaman.store');
+
+    Route::put('peminjaman/{id}', [PeminjamanController::class, 'update'])
+        ->name('api.peminjaman.update');
+
+    Route::delete('peminjaman/{id}', [PeminjamanController::class, 'destroy'])
+        ->name('api.peminjaman.destroy');
+
 });
 
 

@@ -13,7 +13,7 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        $anggota = Anggota::orderBy('idKey', 'asc')->get();
+        $anggota = Anggota::orderBy('idKey', 'desc')->get();
         return response()->json([
             'status' => true,
             'message' => 'Data Anggota Berhasil Diambil',

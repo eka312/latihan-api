@@ -14,7 +14,7 @@ class AnggotaSeeder extends Seeder
     public function run(): void
     {
         $faker = \Faker\Factory::create('id_ID');
-        for($i = 0; $i < 5; $i++) {
+        for($i = 0; $i < 15; $i++) {
             anggota::create([
                 'id_anggota' => $faker->unique()->numerify('A####'),
                 'nama' => $faker->name(),

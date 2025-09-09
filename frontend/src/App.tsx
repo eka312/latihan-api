@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import DataBuku2 from "./pages/buku2";
 import DataAnggota from "./pages/anggota";
+import Peminjaman from "./pages/peminjaman";
 import Login from "./pages/login";
 // import Register from "./pages/register";
 import PrivateRoute from "./komponen/ProtectedRoute";
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/buku" element={<PrivateRoute><DataBuku2 /></PrivateRoute>} />
         <Route path="/anggota" element={<PrivateRoute><DataAnggota /></PrivateRoute>} />
+        <Route path="/peminjaman" element={<PrivateRoute><Peminjaman /></PrivateRoute>} />
 
         {/* Route public */}
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

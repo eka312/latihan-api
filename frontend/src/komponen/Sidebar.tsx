@@ -1,8 +1,8 @@
 import {NavLink, useNavigate} from 'react-router-dom';
-import {FaDoorOpen, FaHome} from "react-icons/fa";
+import {FaBookOpen, FaDoorOpen, FaHome} from "react-icons/fa";
 import { useState } from 'react';
 import axios from "axios";
-import { FaUser, FaTable} from 'react-icons/fa';
+import { FaUser, FaBook} from 'react-icons/fa';
 
 
 
@@ -83,7 +83,7 @@ function Sidebar() {
                 }`
               }
             >
-              <FaTable className="w-5 h-5" />
+              <FaBook className="w-5 h-5" />
               <span className="hidden lg:inline text-sm">Data Buku</span>
             </NavLink>
           </li>
@@ -102,6 +102,23 @@ function Sidebar() {
             >
               <FaUser className="w-5 h-5" />
               <span className="hidden lg:inline text-sm">Data Anggota</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              rel="noopener noreferrer"
+              to="/peminjaman"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-xl transition-all
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white m-0"
+                    : "hover:bg-white/10 hover:shadow-sm "
+                }`
+              }
+            >
+              <FaBookOpen className="w-5 h-5" />
+              <span className="hidden lg:inline text-sm">Peminjaman</span>
             </NavLink>
           </li>
           <li>

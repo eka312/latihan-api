@@ -28,23 +28,33 @@ interface Buku {
   jumlah: number;
 }
 
+interface Peminjaman {
+  id_peminjaman: number;
+  id_buku: number;
+  idKey: number;
+  tanggal_pinjam: string;
+  tanggal_kembali: string;
+  status: string;
+}
 
 export default function Dashboard() {
-  const data = [
-    { bulan: "Jan", jumlah: 5 },
-    { bulan: "Feb", jumlah: 8 },
-    { bulan: "Mar", jumlah: 3 },
-    { bulan: "Apr", jumlah: 10 },
-    { bulan: "Mei", jumlah: 7 },
-    { bulan: "Jun", jumlah: 18 },
-    { bulan: "Jul", jumlah: 10 },
-    { bulan: "Agu", jumlah: 4 },
-    { bulan: "Sep", jumlah: 11 },
-    { bulan: "Okt", jumlah: 15 },
-  ];
+  // const data = [
+  //   { bulan: "Jan", jumlah: 5 },
+  //   { bulan: "Feb", jumlah: 8 },
+  //   { bulan: "Mar", jumlah: 3 },
+  //   { bulan: "Apr", jumlah: 10 },
+  //   { bulan: "Mei", jumlah: 7 },
+  //   { bulan: "Jun", jumlah: 18 },
+  //   { bulan: "Jul", jumlah: 10 },
+  //   { bulan: "Agu", jumlah: 4 },
+  //   { bulan: "Sep", jumlah: 11 },
+  //   { bulan: "Okt", jumlah: 15 },
+  // ];
 
   const [anggota, setAnggota] = useState<Anggota[]>([]);
   const [buku, setBuku] = useState<Buku[]>([]);
+  const [peminjamanAktif, setPeminjamanAktif] = useState<Peminjaman[]>([]);
+  const [chartData, setChartData] = useState<{ bulan: string; jumlah: number }[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -62,7 +72,10 @@ export default function Dashboard() {
       })
       .then((data) => setAnggota(data.data))
       .catch((err) => console.error(err));
+      
 
+
+    // ambil data buku
     fetch("http://127.0.0.1:8000/api/buku", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -77,6 +90,49 @@ export default function Dashboard() {
       .then((data) => setBuku(data.data))
       .catch((err) => console.error(err));
 
+
+    // ambil data peminjaman
+    fetch("http://127.0.0.1:8000/api/peminjaman", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Gagal ambil peminjaman");
+        return res.json();
+      })
+      .then((data) => {
+        const peminjaman: Peminjaman[] = data.data;
+        setPeminjamanAktif(peminjaman);
+
+        // hitung peminjaman per bulan untuk grafik
+        const bulanMap = [
+          "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+          "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+        ];
+
+          const counts: { [key: string]: number} = {};
+
+          peminjaman.forEach((p) => {
+            const date = new Date(p.tanggal_pinjam);
+            const bulan = bulanMap[date.getMonth()];
+            counts[bulan] = (counts[bulan] || 0) + 1;
+          });
+
+          const formatted = bulanMap.map((b) => ({
+            bulan: b,
+            jumlah: counts[b] || 0,
+          }));
+
+          setChartData(formatted);
+      })
+      
+      .catch((err) => console.error(err));
+    
+
+
   
   }, []);
 
@@ -86,7 +142,7 @@ export default function Dashboard() {
 
   return (
         <div className="flex min-h-screen ">
-          <div className="w-16 sm:w-56 ">
+          <div className="w-18 lg:w-58 ">
             <Sidebar />
           </div>
           <div className="flex-1 p-4 sm:p-6">
@@ -101,26 +157,28 @@ export default function Dashboard() {
 
             <main>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-lg shadow">
+                <div className="bg-white p-6 rounded-lg shadow border-2 border-gray-300">
                   <h4 className="text-gray-600">Total Buku</h4>
                   <p className="text-2xl font-bold">{buku.length}</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow">
+                <div className="bg-white p-6 rounded-lg shadow border-2 border-gray-300">
                   <h4 className="text-gray-600">Total Anggota</h4>
                   <p className="text-2xl font-bold">{anggota.length}</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow">
+                <div className="bg-white p-6 rounded-lg shadow border-2 border-gray-300">
                   <h4 className="text-gray-600">Peminjaman Aktif</h4>
-                  <p className="text-2xl font-bold">12</p>
+                  <p className="text-2xl font-bold">
+                    {peminjamanAktif.filter((p) => p.status === "dipinjam").length}
+                  </p>
                 </div>
               </div>
 
               {/* Grafik */}
-              <div className="mt-8 bg-white p-6 rounded-lg shadow">
+              <div className="mt-8 bg-white p-6 rounded-lg shadow border-2 border-gray-300">
                 <h4 className="text-gray-600 mb-4">Peminjaman Bulanan</h4>
                 <div className="h-64 ">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={data}>
+                    <LineChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="bulan" />
                       <YAxis />
@@ -141,7 +199,7 @@ export default function Dashboard() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
 
                 {/* anggota terbaru */}
-                <div className="bg-white shadow-md rounded-2xl p-4 overflow-x-auto">
+                <div className="bg-white shadow-md rounded-2xl p-4 overflow-x-auto border-2 border-gray-300">
                   <h4 className="text-gray-600 mb-4">Anggota Terbaru</h4>
                   <table className="w-full text-sm sm:text-base ">
                     <thead>
@@ -172,7 +230,7 @@ export default function Dashboard() {
 
                 {/* buku terbaru */}
 
-                <div className="bg-white shadow-md rounded-2xl p-4 overflow-x-auto">
+                <div className="bg-white shadow-md rounded-2xl p-4 overflow-x-auto border-2 border-gray-300">
                   <h4 className="text-gray-600 mb-4">Buku Terbaru</h4>
                   <table className="w-full text-sm sm:text-base ">
                     <thead>
