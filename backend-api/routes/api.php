@@ -90,12 +90,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // Route::get('buku/{id}', [BukuController::class, 'show'])
 //     ->name('api.buku.show');
 
+
 route::post('login', [UserController::class, 'login'])
     ->name('api.user.login');
 
+
 // anggota route
-
-
 // Route::get('anggota/{id}', [AnggotaController::class, 'show'])
 //     ->name('api.anggota.show');
 
