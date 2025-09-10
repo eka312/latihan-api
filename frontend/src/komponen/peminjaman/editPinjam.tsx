@@ -80,7 +80,7 @@ function EditPinjam({ id_peminjaman, dataPeminjaman,  setShowEdit, getPeminjaman
                 {/* Modal Form */}
                 <div className="relative bg-white text-black rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] 
                     animate__animated animate__zoomIn ">
-                <h2 className="text-xl font-bold mb-4">Edit Peminjaman</h2>
+                <h2 className="text-xl font-bold mb-4">Edit Data Peminjaman</h2>
                 <form onSubmit={handleSubmit} className="space-y-4 text-black overflow-y-scroll  max-h-[70vh] pr-2 ">
                     
                     <label htmlFor="idKey" className='block mb-1 text-sm font-semibold text-black' >Nama Anggota</label>

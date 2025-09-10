@@ -38,18 +38,7 @@ interface Peminjaman {
 }
 
 export default function Dashboard() {
-  // const data = [
-  //   { bulan: "Jan", jumlah: 5 },
-  //   { bulan: "Feb", jumlah: 8 },
-  //   { bulan: "Mar", jumlah: 3 },
-  //   { bulan: "Apr", jumlah: 10 },
-  //   { bulan: "Mei", jumlah: 7 },
-  //   { bulan: "Jun", jumlah: 18 },
-  //   { bulan: "Jul", jumlah: 10 },
-  //   { bulan: "Agu", jumlah: 4 },
-  //   { bulan: "Sep", jumlah: 11 },
-  //   { bulan: "Okt", jumlah: 15 },
-  // ];
+
 
   const [anggota, setAnggota] = useState<Anggota[]>([]);
   const [buku, setBuku] = useState<Buku[]>([]);
@@ -153,6 +142,7 @@ export default function Dashboard() {
               <p className="text-gray-500 text-sm sm:text-base">
                 Ringkasan data perpustakaan
               </p>
+
             </header>
 
             <main>
@@ -191,7 +181,10 @@ export default function Dashboard() {
                         stroke="#2563eb"
                         strokeWidth={3}
                         dot={{ r: 5 }}
+
                       />
+
+
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
