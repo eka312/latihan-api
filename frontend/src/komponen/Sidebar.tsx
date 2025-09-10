@@ -55,7 +55,7 @@ function Sidebar() {
         </div>
 
         {/* Menu Utama */}
-        <ul className="flex-1 px-2 space-y-2 mt-4">
+        <ul className="flex-1 px-2 space-y-2 lg:mt-4">
           <li>
             <NavLink
               to="/"

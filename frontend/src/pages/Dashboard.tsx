@@ -142,7 +142,7 @@ export default function Dashboard() {
 
   return (
         <div className="flex min-h-screen ">
-          <div className="w-18 lg:w-58 ">
+          <div className="w-15 lg:w-58 ">
             <Sidebar />
           </div>
           <div className="flex-1 p-4 sm:p-6">

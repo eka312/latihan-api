@@ -103,7 +103,7 @@ function DataAnggota() {
     <>
 
       <div className="flex min-h-screen ">
-        <div className="w-18 lg:w-58 ">
+        <div className="w-15 lg:w-58 ">
           <Sidebar/>
         </div>
         <div className=" flex-1 m-4 md:m-6 pb-7  rounded-2xl overflow-x-auto relative">

@@ -89,7 +89,7 @@ export default function DataBuku() {
     return (
         <>
         <div className="flex min-h-screen ">
-            <div className="w-18 lg:w-58 ">
+            <div className="w-15 lg:w-58 ">
                 <Sidebar />
             </div>
             <div className="flex-1 m-4 md:m-6 pb-7  rounded-2xl overflow-x-auto relative">
@@ -99,7 +99,7 @@ export default function DataBuku() {
                         <h2 className="text-lg font-bold text-gray-700">Daftar Buku</h2>
                         <button
                             onClick={() => setShowTambah(true)}
-                            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition"
+                            className="flex items-center gap-2 mr-1 sm:mr-0 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 sm:px-4 py-2 rounded-lg transition"
                         >
                             <FaPlus /> Tambah
                         </button>
