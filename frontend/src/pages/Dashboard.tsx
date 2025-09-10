@@ -173,6 +173,8 @@ export default function Dashboard() {
                 </div>
               </div>
 
+              
+
               {/* Grafik */}
               <div className="mt-8 bg-white p-6 rounded-lg shadow border-2 border-gray-300">
                 <h4 className="text-gray-600 mb-4">Peminjaman Bulanan</h4>
@@ -194,6 +196,9 @@ export default function Dashboard() {
                   </ResponsiveContainer>
                 </div>
               </div>
+
+             
+
 
               {/* Data terbaru */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
